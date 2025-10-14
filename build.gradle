@@ -2,7 +2,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '7.0.11'
+    id 'net.minecraftforge.gradle' version '7.0.12'
 }
 tasks.named('wrapper', Wrapper).configure {
     // Define wrapper values here so as to not have to always do so when updating gradlew.properties.
@@ -12,7 +12,7 @@ tasks.named('wrapper', Wrapper).configure {
     // (Verify by checking gradle/wrapper/gradle-wrapper.properties to see if distributionUrl now points to `-all`)
     distributionType = Wrapper.DistributionType.BIN
     options.fork = true
-    options.forkOptions.javaHome = file('C:/Program Files/Eclipse Adoptium/jdk-17.0.10.7-hotspot'
+    options.forkOptions.javaHome = file('C:/Program Files/Eclipse Adoptium/jdk-17.0.10.7-hotspot')
 }
 version = '1.1.5-1.20.1'
 group = 'iss_magicfromtheeast'
@@ -44,6 +44,8 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
 }
 
 minecraft {
@@ -162,21 +164,21 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+
+    // Java 8をターゲットにしているエラーを解決するために以下を追加/変更
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+
+    // Java 8のtools.jarが見つからないエラーを解決するために以下を追加/確認
+    options.fork = true
+    options.forkOptions.javaHome = file('C:/Program Files/Eclipse Adoptium/jdk-17.0.10.7-hotspot') // ★あなたの正確なJava 17パスに！★
 }
 
-// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+// ideaブロックはtasks.withType(JavaCompile)を含まないようにする
 idea {
     module {
         downloadSources = true
         downloadJavadoc = true
     }
-    tasks.withType(JavaCompile).configureEach {
-        options.encoding = 'UTF-8' // 既存であればそのまま
-
-        // ここに以下の2行を追加します
-        options.fork = true
-        options.forkOptions.javaHome = file('C:/Program Files/Eclipse Adoptium/jdk-17.0.16.8-hotspot') // あなたのJava 17パスを正確に！
-    }
+    // ここにはtasks.withType(JavaCompile)ブロックはもう存在しない
 }
-systemProp.http.agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36
-systemProp.https.agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36
