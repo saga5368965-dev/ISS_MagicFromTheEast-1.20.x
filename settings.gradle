@@ -1,11 +1,23 @@
 pluginManagement {
     repositories {
-        mavenLocal()
         gradlePluginPortal()
-        maven { url = 'https://maven.neoforged.net/releases' }
+        maven { url 'https://maven.minecraftforge.net/' }
+        mavenCentral()
     }
 }
-
-plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
+dependencyResolutionManagement {
+    //repositoriesMode = RepositoryMode.PREFER_SETTINGS
+    repositories {
+        maven {
+            name = 'MinecraftForge'
+            url = 'https://maven.minecraftforge.net/'
+        }
+        mavenCentral()
+        maven { url 'https://www.cursemaven.com' } // JEI, Irons Spellbooks, その他多くのMod用
+        maven { url 'https://maven.blamejared.com/' } // JEI, その他多くのMod用
+        maven { url 'https://maven.theillusivec4.top/' } // Curios用
+        maven { url 'https://maven.kosmx.dev/' } // Player Animation Lib用
+        maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' } // Geckolibなど一部のMod用
+        maven { url 'https://jitpack.io' } // もしJitpack経由のModがある場合
+    }
 }
