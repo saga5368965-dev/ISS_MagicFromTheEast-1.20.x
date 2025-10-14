@@ -11,6 +11,8 @@ tasks.named('wrapper', Wrapper).configure {
     // file size for Gradle. If you do switch this to ALL, run the Gradle wrapper task twice afterwards.
     // (Verify by checking gradle/wrapper/gradle-wrapper.properties to see if distributionUrl now points to `-all`)
     distributionType = Wrapper.DistributionType.BIN
+    options.fork = true
+    options.forkOptions.javaHome = file('C:/Program Files/Eclipse Adoptium/jdk-17.0.10.7-hotspot'
 }
 version = '1.1.5-1.20.1'
 group = 'iss_magicfromtheeast'
