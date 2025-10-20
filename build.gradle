@@ -98,21 +98,48 @@ configurations {
 }
 
 dependencies {
+    // MinecraftForge本体の依存関係
+    // 通常、ForgeGradleは `minecraft { version = ... }` に基づいて
+    // これを自動的に追加するため、明示的な `implementation fg.deobf(...)` は不要な場合があります。
+    // しかし、明示的に追加することで、依存関係解決の確実性を高めることができます。
+    // もし `minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"` で問題なければ、
+    // こちらの `implementation` 行は削除しても良いかもしれません。
+    // 今回は安全のため両方残しますが、MDKの一般的な形は `minecraft "..."` のみです。
+    // MDKの`build.gradle`を確認し、Forge本体をどのように指定しているか確認するとより正確です。
+    minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+    // 上記の `minecraft "..."` を使う場合、この下の行は不要な可能性が高いです。
+    // もしコンパイルエラーが出たら、以下の行は削除してみてください。
+    implementation fg.deobf("net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}")
 
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    // あなたが追加するModの依存関係は以下に記述
+
     // Curios API
-    implementation fg.deobf("top.theillusivec4.curios:curios-forge:1.20.1-5.4.1.0")
+    // `project.curios_version` のように gradle.properties からバージョンを参照することを推奨
+    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${project.minecraft_version}-5.4.1.0") // バージョンを gradle.properties に置く場合は `${project.curios_version}`
+
     // Player Animation Lib
-    implementation(fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:1.0.2-rc1+1.20.1_mapped_official_1.20.1"))
+    // `project.player_anim_version` のように gradle.properties からバージョンを参照することを推奨
+    // マッピング済みバージョンは通常、そのまま記述
+    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${project.player_animator_version}")
+
     // Irons Spellbooks
-    implementation(fg.deobf("io.redspace:irons_spellbooks:1.20.1-3.4.1_mapped_official_1.20.1"))
-    // JEI
-    implementation(fg.deobf("mezz.jei:jei-1.20.1-forge:15.3.0.4_mapped_official_1.20.1"))
+    // `project.irons_spellbooks_version` のように gradle.properties からバージョンを参照することを推奨
+    implementation fg.deobf("io.redspace:irons_spellbooks:${project.minecraft_version}-3.4.1_mapped_official_${project.minecraft_version}") // バージョンを gradle.properties に置く場合は `${project.irons_spellbooks_version}`
+
+    // JEI (Just Enough Items)
+    // `project.jei_version` のように gradle.properties からバージョンを参照することを推奨
+    implementation fg.deobf("mezz.jei:jei-${project.minecraft_version}-forge:15.3.0.4_mapped_official_${project.minecraft_version}") // バージョンを gradle.properties に置く場合は `${project.jei_version}`
+
     // GeckoLib
-    implementation(fg.deobf("software.bernie.geckolib:geckolib-forge-1.20.1:6.2.0"))
-    // Blockbench-Model-Util (JitPackの正確なバージョンに修正)
-    implementation(fg.deobf("com.github.camadeusa:Blockbench-Model-Util:forge-1.20.1-1.0.1")) // 例
+    // `project.geckolib_version` のように gradle.properties からバージョンを参照することを推奨
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${project.minecraft_version}:${project.geckolib_version}")
+    // gradle.propertiesに geckolib_version=6.2.0 を追加してください
+
+    // Blockbench-Model-Util (JitPack)
+    // JitPackの依存関係は少し特殊なので、MDKの `build.gradle` でどう記述されているか確認推奨
+    // 通常は fg.deobf() は不要な場合があります。
+    // もし MDK で fg.deobf() なしで記述されているなら、それに合わせてください。
+    implementation "com.github.camadeusa:Blockbench-Model-Util:forge-${project.minecraft_version}-1.0.1" // fg.deobf() なしで試す
+    // gradle.propertiesに blockbench_model_util_version=forge-1.20.1-1.0.1 を追加してください
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
