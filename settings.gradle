@@ -4,6 +4,13 @@ pluginManagement {
         maven { url 'https://maven.minecraftforge.net/' }
         maven { url 'https://repo.maven.apache.org/maven2/' }
         maven { url 'https://maven.kosmx.dev/' } // ★これを追加
+        maven { url 'https://www.cursemaven.com' }
+        maven { url 'https://maven.theillusivec4.top/' }
+        maven { url 'https://jitpack.io' }
+        maven {
+            name = 'GeckoLib'
+            url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' // ★これを追加
+        }
         mavenCentral()
     }
 }
@@ -19,6 +26,7 @@ dependencyResolutionManagement {
         maven { url 'https://maven.blamejared.com/' } // JEI, その他多くのMod用
         maven { url 'https://maven.theillusivec4.top/' } // Curios用
         maven { url 'https://maven.kosmx.dev/' } // Player Animation Lib用
+        maven { url 'https://www.cursemaven.com' }
         maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' } // Geckolibなど一部のMod用
         maven { url 'https://jitpack.io' } // もしJitpack経由のModがある場合
     }
